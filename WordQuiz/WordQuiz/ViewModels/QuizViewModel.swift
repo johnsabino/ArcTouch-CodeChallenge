@@ -16,6 +16,9 @@ class QuizViewModel {
     var correctAnswersCount: Int {
         return dataSource.correctAnswers.count
     }
+    var allAnswersCount: Int {
+        return dataSource.quiz.answer.count
+    }
     
     weak var quizStatusDelegate: QuizStatusDelegate?
     
@@ -43,14 +46,12 @@ class QuizViewModel {
         if hitAnswer {
             dataSource.correctAnswers.append(lowerCasedText.firstUppercased)
             
-            let correctAnswerCount = dataSource.correctAnswers.count
-            let allAnswersCount = answers.count
-            let formattedCountAnswer = formatCountAnswer(correctAnswerCount: correctAnswerCount,
+            let formattedCountAnswer = formatCountAnswer(correctAnswerCount: correctAnswersCount,
                                                  answersCount: allAnswersCount)
             
             hittedAnswerCompletion(formattedCountAnswer)
             
-            if correctAnswerCount == allAnswersCount {
+            if correctAnswersCount == allAnswersCount {
                 self.winQuiz()
             }   
         }
@@ -92,8 +93,6 @@ class QuizViewModel {
     
     private func loseQuiz() {
         endQuiz()
-        let correctAnswersCount = dataSource.correctAnswers.count
-        let allAnswersCount = dataSource.quiz.answer.count
         quizStatusDelegate?.updateQuizStatus(to: .lose(correctAnswersCount: correctAnswersCount,
                                                        allAnswersCount: allAnswersCount))
     }

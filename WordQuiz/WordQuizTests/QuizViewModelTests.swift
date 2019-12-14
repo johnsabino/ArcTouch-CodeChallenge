@@ -12,19 +12,25 @@ import XCTest
 class QuizViewModelTests: XCTestCase {
 
     var quizViewModel: QuizViewModel!
-
+    var quizVC: QuizViewController!
+    
     override func setUp() {
         quizViewModel = QuizViewModel(timeLimit: 1)
         let quiz = Quiz(question: "What are all the java keywords?",
                         answer: ["do", "catch"])
         quizViewModel.dataSource.quiz = quiz
+        
+        quizVC = QuizViewController()
+        quizVC.quizViewModel = quizViewModel
+        quizViewModel.quizStatusDelegate = quizVC
     }
 
     override func tearDown() {
         quizViewModel = nil
+        quizVC = nil
     }
 
-    func testSetTimer_success() {
+    func testSetTimer() {
         let expectation = XCTestExpectation(description: "Correct Word")
         
         quizViewModel.setTimer { _ in
@@ -56,7 +62,7 @@ class QuizViewModelTests: XCTestCase {
         
         let correctAnswersCount = quizViewModel.dataSource.correctAnswers.count
         let allAnswerCount = quizViewModel.dataSource.quiz.answer.count
-        XCTAssertEqual(correctAnswersCount, allAnswerCount)
+        XCTAssertEqual(quizViewModel.correctAnswersCount, quizViewModel.allAnswerCount)
     }
     
     func testLoseQuiz() {
@@ -71,9 +77,7 @@ class QuizViewModelTests: XCTestCase {
         }
         quizViewModel.verify(text: "do") { (_) in }
         
-        let correctAnswersCount = quizViewModel.dataSource.correctAnswers.count
-        let allAnswerCount = quizViewModel.dataSource.quiz.answer.count
-        XCTAssertLessThan(correctAnswersCount, allAnswerCount)
+        XCTAssertLessThan(quizViewModel.correctAnswersCount, quizViewModel.allAnswerCount)
         
         wait(for: [expectation], timeout: 5)
     }

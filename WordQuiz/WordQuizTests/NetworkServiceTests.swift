@@ -13,7 +13,6 @@ class NetworkServiceTests: XCTestCase {
     var apiProvider: APIProvider<Quiz>!
     override func setUp() {
         apiProvider = APIProvider<Quiz>()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
