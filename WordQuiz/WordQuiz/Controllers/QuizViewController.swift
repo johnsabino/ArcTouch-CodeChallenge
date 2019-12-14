@@ -27,7 +27,7 @@ class QuizViewController: UIViewController {
         quizView.actionHandler = startQuiz
     }
     
-    func setupDataSource() {
+    private func setupDataSource() {
         dataSource.dataFetchDelegate = self
         quizView.setupTableView(dataSource: dataSource)
     }
@@ -36,11 +36,20 @@ class QuizViewController: UIViewController {
         view = quizView
     }
     
-    func startQuiz() {
+    private func startQuiz() {
         quizView.updateCorrectAnswersCountLabel(text: "00/\(dataSource.quiz.answer.count)")
         quizViewModel.setTimer { [weak self] (currentTime) in
             self?.quizView.updateTimerLabel(text: currentTime)
         }
+    }
+    
+    private func showAlert(title: String, message: String,
+                           alertActionTitle: String, alertAction: ((UIAlertAction) -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let replayAction = UIAlertAction(title: alertActionTitle, style: .default, handler: alertAction)
+
+        alert.addAction(replayAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -59,20 +68,19 @@ extension QuizViewController: QuizFetchDelegate {
             self.showAlert(title: "Network Error",
                            message: "Cannot fetch quiz",
                            alertActionTitle: "Try Again") { [weak self] _ in
-                        guard let self = self else { return }
-                        self.view.addSubview(self.loadingView)
-                        self.quizViewModel.getQuiz(id: 1)
+                guard let self = self else { return }
+                self.view.addSubview(self.loadingView)
+                self.quizViewModel.getQuiz(id: 1)
             }
         }
-        
     }
     
-    func didUpdateCorrectAnswers(isHitted: Bool) {
+    func didUpdateCorrectAnswers(isRestarting: Bool) {
         DispatchQueue.main.async {
-            if isHitted {
-                self.quizView.insertRow(at: self.dataSource.correctAnswers.count - 1)
-            } else {
+            if isRestarting {
                 self.quizView.reloadTableView()
+            } else {
+                self.quizView.insertRow(at: self.dataSource.correctAnswers.count - 1)
             }
         }
     }
@@ -100,8 +108,8 @@ extension QuizViewController: QuizStatusDelegate {
             showAlert(title: "Congratulations",
                       message: "Good job! You found all the answers on time. Keep up with the great work.",
                       alertActionTitle: "Play Again") { [weak self] _ in
-                        
-                        self?.startQuiz()
+        
+                self?.startQuiz()
             }
         case .lose(let correctAnswersCount, let allAnswersCount):
 
@@ -109,18 +117,8 @@ extension QuizViewController: QuizStatusDelegate {
                       message: "Sorry, time is up! You got \(correctAnswersCount) out of \(allAnswersCount) answers",
                       alertActionTitle: "Try Again") { [weak self] _ in
                         
-                        self?.startQuiz()
+                self?.startQuiz()
             }
         }
     }
-    
-    func showAlert(title: String, message: String,
-                   alertActionTitle: String, alertAction: ((UIAlertAction) -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let replayAction = UIAlertAction(title: alertActionTitle, style: .default, handler: alertAction)
-
-        alert.addAction(replayAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
 }

@@ -18,6 +18,7 @@ class QuizView: UIView {
     private let timerLabel = UILabel(text: "05:00", font: .title)
     private let actionButton = UIButton(title: "Start", cornerRadius: 10)
     
+    var bottomConstraint: NSLayoutConstraint?
     var actionHandler: Action?
     weak var textFieldEditingDelegate: TextFieldEditingDelegate?
     
@@ -26,6 +27,14 @@ class QuizView: UIView {
         setupView()
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+        setupKeyboardObservers()
+    }
+    
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -69,8 +78,30 @@ class QuizView: UIView {
     func updateCorrectAnswersCountLabel(text: String) {
         correctAnswersCountLabel.text = text
     }
+    
+    // MARK: - Keyboard Observers
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardSize = notification.userInfo?  [UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+            else { return }
+
+        let keyboardHeight = keyboardSize.height
+        let newConstant = -(keyboardHeight - safeAreaInsets.bottom)
+        animateBottomConstraint(to: newConstant)
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        animateBottomConstraint(to: 0)
+    }
+    
+    private func animateBottomConstraint(to constant: CGFloat) {
+        self.bottomConstraint?.constant = constant
+        UIView.animate(withDuration: 0.5) {
+            self.layoutIfNeeded()
+        }
+    }
 }
 
+// MARK: - View Code
 extension QuizView: ViewCode {
     func buildViewHierarchy() {
         addSubviews([titleLabel, textField, tableView, componentView])
@@ -94,11 +125,11 @@ extension QuizView: ViewCode {
             .left(safeAreaLayoutGuide.leftAnchor, padding: 16)
             .right(safeAreaLayoutGuide.rightAnchor, padding: 16)
         
-        componentView.anchor
+        bottomConstraint = componentView.anchor
             .top(tableView.bottomAnchor)
             .left(safeAreaLayoutGuide.leftAnchor)
             .right(safeAreaLayoutGuide.rightAnchor)
-            .bottom(safeAreaLayoutGuide.bottomAnchor)
+            .bottom(safeAreaLayoutGuide.bottomAnchor).getLastConstraint
         
         correctAnswersCountLabel.anchor
             .top(componentView.topAnchor, padding: 16)
@@ -121,8 +152,4 @@ extension QuizView: ViewCode {
         backgroundColor = .white
         componentView.backgroundColor = .customGray
     }
-}
-
-protocol TextFieldEditingDelegate: AnyObject {
-    func textFieldDidChange(_ textField: UITextField)
 }

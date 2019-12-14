@@ -7,12 +7,6 @@
 //
 import UIKit
 
-protocol QuizFetchDelegate: AnyObject {
-    func didSetQuiz()
-    func didUpdateCorrectAnswers(isHitted: Bool)
-    func didFailFetch(with error: NetworkError)
-}
-
 class QuizTableDataSource: NSObject, UITableViewDataSource {
     
     weak var dataFetchDelegate: QuizFetchDelegate?
@@ -23,7 +17,7 @@ class QuizTableDataSource: NSObject, UITableViewDataSource {
     }
     var correctAnswers: [String] = [] {
         didSet {
-            dataFetchDelegate?.didUpdateCorrectAnswers(isHitted: !correctAnswers.isEmpty)
+            dataFetchDelegate?.didUpdateCorrectAnswers(isRestarting: correctAnswers.isEmpty)
         }
     }
     

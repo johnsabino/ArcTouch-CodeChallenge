@@ -12,7 +12,3 @@ extension StringProtocol {
         return prefix(1).uppercased()  + dropFirst()
     }
 }
-
-extension TimeInterval {
-    
-}

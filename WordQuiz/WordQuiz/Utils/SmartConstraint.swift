@@ -27,8 +27,8 @@ public class SmartConstraint {
     unowned var view: AnyObject
 
     public var constraints: [NSLayoutConstraint] = []
-    public var lastConstraint: NSLayoutConstraint? {
-        didSet { if let constraint = lastConstraint { constraints.append(constraint) } }
+    public var getLastConstraint: NSLayoutConstraint? {
+        didSet { if let constraint = getLastConstraint { constraints.append(constraint) } }
     }
 
     init(view: UIView) {
@@ -203,7 +203,7 @@ extension SmartConstraint {
         }
         constraint.priority = priority
         constraint.isActive = true
-        lastConstraint = constraint
+        getLastConstraint = constraint
     }
     
     func layoutDimension(_ dimension: NSLayoutDimension,
@@ -240,6 +240,6 @@ extension SmartConstraint {
         
         constraint.priority = priority
         constraint.isActive = true
-        lastConstraint = constraint
+        getLastConstraint = constraint
     }
 }

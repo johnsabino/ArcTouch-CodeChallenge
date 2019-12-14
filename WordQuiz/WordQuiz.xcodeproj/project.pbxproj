@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6CCBEA2C23A577110013E769 /* TextFieldEditingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCBEA2B23A577110013E769 /* TextFieldEditingDelegate.swift */; };
+		6CCBEA2E23A5798C0013E769 /* QuizFetchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCBEA2D23A5798C0013E769 /* QuizFetchDelegate.swift */; };
 		6CF2D91B23A4648E000576A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2D91A23A4648E000576A8 /* AppDelegate.swift */; };
 		6CF2D91D23A4648E000576A8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2D91C23A4648E000576A8 /* SceneDelegate.swift */; };
 		6CF2D92423A4648F000576A8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6CF2D92323A4648F000576A8 /* Assets.xcassets */; };
@@ -53,6 +55,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6CCBEA2B23A577110013E769 /* TextFieldEditingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldEditingDelegate.swift; sourceTree = "<group>"; };
+		6CCBEA2D23A5798C0013E769 /* QuizFetchDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizFetchDelegate.swift; sourceTree = "<group>"; };
 		6CF2D91723A4648E000576A8 /* WordQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CF2D91A23A4648E000576A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6CF2D91C23A4648E000576A8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 			children = (
 				6CF2D96423A47324000576A8 /* ViewCode.swift */,
 				6CF2D98323A52BDA000576A8 /* QuizStatusDelegate.swift */,
+				6CCBEA2B23A577110013E769 /* TextFieldEditingDelegate.swift */,
+				6CCBEA2D23A5798C0013E769 /* QuizFetchDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -430,7 +436,9 @@
 				6CF2D95023A46A8F000576A8 /* Data+Decode.swift in Sources */,
 				6CF2D94023A468BF000576A8 /* SmartConstraint.swift in Sources */,
 				6CF2D94623A469BA000576A8 /* RouterService.swift in Sources */,
+				6CCBEA2E23A5798C0013E769 /* QuizFetchDelegate.swift in Sources */,
 				6CF2D98623A56846000576A8 /* LoadingView.swift in Sources */,
+				6CCBEA2C23A577110013E769 /* TextFieldEditingDelegate.swift in Sources */,
 				6CF2D95423A46C3E000576A8 /* APIProvider.swift in Sources */,
 				6CF2D98223A5146A000576A8 /* StringProtocol+FirstUppercased.swift in Sources */,
 				6CF2D94E23A46A81000576A8 /* Encodable+Data.swift in Sources */,
