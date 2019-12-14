@@ -19,16 +19,15 @@ class QuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDataSource()
-        quizViewModel.getQuiz()
+        quizViewModel.getQuiz(id: 1)
         quizViewModel.quizStatusDelegate = self
         quizView.textFieldEditingDelegate = self
-        
         quizView.actionHandler = startQuiz
     }
     
     func setupDataSource() {
         dataSource.dataFetchDelegate = self
-        quizView.setTableDataSource(dataSource)
+        quizView.setupTableView(dataSource: dataSource)
     }
     
     override func loadView() {
@@ -36,19 +35,17 @@ class QuizViewController: UIViewController {
     }
     
     func startQuiz() {
-        
-        quizView.updateSuccessRateLabel(text: "00/\(dataSource.quiz.answer.count)")
+        quizView.updateCorrectAnswersCountLabel(text: "00/\(dataSource.quiz.answer.count)")
         quizViewModel.setTimer { [weak self] (currentTime) in
             self?.quizView.updateTimerLabel(text: currentTime)
         }
     }
 }
 
-// MARK: - Data Fetch Delegate
+// MARK: - Quiz Fetch Delegate
 extension QuizViewController: QuizFetchDelegate {
     func didSetQuiz() {
         DispatchQueue.main.async {
-            print(self.dataSource.quiz.answer)
             self.quizView.setTitle(text: self.dataSource.quiz.question)
         }
     }
@@ -68,21 +65,21 @@ extension QuizViewController: QuizFetchDelegate {
     }
 }
 
+// MARK: - TextField Editing Delegate
 extension QuizViewController: TextFieldEditingDelegate {
     func textFieldDidChange(_ textField: UITextField) {
         if !quizViewModel.quizStarted {
             textField.text = ""
             return
         }
-        
-        let text = textField.text ?? ""
-        quizViewModel.verify(text: text) { countAnswers in
+
+        quizViewModel.verify(text: textField.text ?? "") { countAnswers in
             textField.text = nil
-            quizView.updateSuccessRateLabel(text: countAnswers)
+            quizView.updateCorrectAnswersCountLabel(text: countAnswers)
         }
     }
 }
-
+// MARK: - Quiz Status Delegate
 extension QuizViewController: QuizStatusDelegate {
     func updateQuizStatus(to status: QuizStatus) {
         switch status {
@@ -93,18 +90,18 @@ extension QuizViewController: QuizStatusDelegate {
         case .lose(let correctAnswersCount, let allAnswersCount):
 
             showAlert(title: "Time finished",
-                      message: "Sorry, time is up! You got \(correctAnswersCount) out of \(allAnswersCount)",
+                      message: "Sorry, time is up! You got \(correctAnswersCount) out of \(allAnswersCount) answers",
                       alertActionTitle: "Try Again")
         }
     }
     
     func showAlert(title: String, message: String, alertActionTitle: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: alertActionTitle, style: .default, handler: { [weak self] _ in
+        let replayAction = UIAlertAction(title: alertActionTitle, style: .default, handler: { [weak self] _ in
             self?.startQuiz()
-        }))
+        })
         
+        alert.addAction(replayAction)
         present(alert, animated: true, completion: nil)
     }
     

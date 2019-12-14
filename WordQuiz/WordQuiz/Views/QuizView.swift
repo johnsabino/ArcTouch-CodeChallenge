@@ -10,12 +10,12 @@ import UIKit
 
 class QuizView: UIView {
     typealias Action = () -> Void
-    private let titleLabel = UILabel(font: .title)
-    private let textField = UITextField(cornerRadius: 10)
-    private let tableView = UITableView()
+    private lazy var titleLabel = UILabel(font: .title)
+    private lazy var textField = UITextField(cornerRadius: 10)
+    private lazy var tableView = UITableView()
     private let componentView = UIView()
-    private let successRateLabel = UILabel(text: "00/50", font: .title)
-    private let timerLabel = UILabel(text: "00:00", font: .title)
+    private let correctAnswersCountLabel = UILabel(text: "00/50", font: .title)
+    private let timerLabel = UILabel(text: "05:00", font: .title)
     private let actionButton = UIButton(title: "Start", cornerRadius: 10)
     
     var actionHandler: Action?
@@ -23,11 +23,7 @@ class QuizView: UIView {
     
     init() {
         super.init(frame: .zero)
-        
         setupView()
-        tableView.register(UITableViewCell.self)
-        tableView.allowsSelection = false
-        
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
     }
@@ -48,8 +44,12 @@ class QuizView: UIView {
     func setTitle(text: String) {
         titleLabel.text = text
     }
-    func setTableDataSource(_ dataSource: UITableViewDataSource) {
+
+    func setupTableView(dataSource: UITableViewDataSource) {
         tableView.dataSource = dataSource
+        tableView.register(UITableViewCell.self)
+        tableView.allowsSelection = false
+        tableView.tableFooterView = UIView()
     }
     
     func insertRow(at index: Int) {
@@ -66,15 +66,15 @@ class QuizView: UIView {
         timerLabel.text = text
     }
     
-    func updateSuccessRateLabel(text: String) {
-        successRateLabel.text = text
+    func updateCorrectAnswersCountLabel(text: String) {
+        correctAnswersCountLabel.text = text
     }
 }
 
 extension QuizView: ViewCode {
     func buildViewHierarchy() {
         addSubviews([titleLabel, textField, tableView, componentView])
-        componentView.addSubviews([successRateLabel, timerLabel, actionButton])
+        componentView.addSubviews([correctAnswersCountLabel, timerLabel, actionButton])
     }
     
     func buildConstraints() {
@@ -100,7 +100,7 @@ extension QuizView: ViewCode {
             .right(safeAreaLayoutGuide.rightAnchor)
             .bottom(safeAreaLayoutGuide.bottomAnchor)
         
-        successRateLabel.anchor
+        correctAnswersCountLabel.anchor
             .top(componentView.topAnchor, padding: 16)
             .bottom(actionButton.topAnchor, padding: 16)
             .left(componentView.leftAnchor, padding: 16)

@@ -7,21 +7,19 @@
 //
 import Foundation
 
-typealias Message = (title: String, message: String, alertActionTitle: String)
 class QuizViewModel {
     let dataSource = QuizTableDataSource()
     var timer: Timer?
     let timeLimit: TimeInterval = 300 //in seconds
     var hasCompleted = false
     var quizStarted = false
-    
     var correctAnswersCount: Int {
         return dataSource.correctAnswers.count
     }
     
     weak var quizStatusDelegate: QuizStatusDelegate?
     
-    func getQuiz(id: Int = 1) {
+    func getQuiz(id: Int) {
         let apiProvider = APIProvider<Quiz>()
         apiProvider.request(EndPoint.getQuiz(id: id)) { result in
             switch result {
