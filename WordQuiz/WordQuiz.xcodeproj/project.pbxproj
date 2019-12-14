@@ -97,9 +97,9 @@
 		6CF2D91923A4648E000576A8 /* WordQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				6CF2D93E23A468A8000576A8 /* Utils */,
 				6CF2D95723A46E0B000576A8 /* Models */,
 				6CF2D94123A46937000576A8 /* Network */,
-				6CF2D93E23A468A8000576A8 /* SmartConstraint */,
 				6CF2D93D23A467ED000576A8 /* SupportingFiles */,
 			);
 			path = WordQuiz;
@@ -127,12 +127,12 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
-		6CF2D93E23A468A8000576A8 /* SmartConstraint */ = {
+		6CF2D93E23A468A8000576A8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				6CF2D93F23A468BF000576A8 /* SmartConstraint.swift */,
 			);
-			path = SmartConstraint;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		6CF2D94123A46937000576A8 /* Network */ = {

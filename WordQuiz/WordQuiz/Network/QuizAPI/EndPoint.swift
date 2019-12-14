@@ -9,7 +9,7 @@
 import Foundation
 
 enum EndPoint {
-    case getQuz
+    case getQuiz(id: Int)
 }
 
 extension EndPoint: RouterService {
@@ -18,6 +18,9 @@ extension EndPoint: RouterService {
     }
     
     var path: String {
-        return "/quiz/1"
+        switch self {
+        case .getQuiz(let id):
+            return "/quiz/\(id)"
+        }
     }  
 }
