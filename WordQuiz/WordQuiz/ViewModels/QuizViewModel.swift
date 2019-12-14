@@ -10,7 +10,7 @@ import Foundation
 class QuizViewModel {
     let dataSource = QuizTableDataSource()
     var timer: Timer?
-    let timeLimit: TimeInterval = 300 //in seconds
+    let timeLimit: TimeInterval //in seconds
     var hasCompleted = false
     var quizStarted = false
     var correctAnswersCount: Int {
@@ -18,6 +18,10 @@ class QuizViewModel {
     }
     
     weak var quizStatusDelegate: QuizStatusDelegate?
+    
+    init(timeLimit: TimeInterval = 300) {
+        self.timeLimit = timeLimit
+    }
     
     func getQuiz(id: Int) {
         let apiProvider = APIProvider<Quiz>()
