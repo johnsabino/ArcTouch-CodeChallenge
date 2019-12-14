@@ -7,27 +7,33 @@
 //
 import UIKit
 
-protocol DataFetchDelegate: AnyObject {
-    func didSetData()
-    func didFailFetch(with: NetworkError)
+protocol QuizFetchDelegate: AnyObject {
+    func didSetQuiz()
+    func didUpdateCorrectAnswers(isHitted: Bool)
+    func didFailFetch(with error: NetworkError)
 }
 
 class QuizTableDataSource: NSObject, UITableViewDataSource {
     
-    weak var dataFetchDelegate: DataFetchDelegate?
-    var data: Quiz! {
+    weak var dataFetchDelegate: QuizFetchDelegate?
+    var quiz: Quiz! {
         didSet {
-            dataFetchDelegate?.didSetData()
+            dataFetchDelegate?.didSetQuiz()
+        }
+    }
+    var correctAnswers: [String] = [] {
+        didSet {
+            dataFetchDelegate?.didUpdateCorrectAnswers(isHitted: !correctAnswers.isEmpty)
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 25
+        return correctAnswers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.textLabel?.text = "Else"
+        cell.textLabel?.text = correctAnswers[indexPath.row]
         return cell
     }
 }

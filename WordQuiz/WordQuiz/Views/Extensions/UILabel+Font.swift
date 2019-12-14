@@ -9,8 +9,9 @@
 import UIKit
 
 extension UILabel {
-    convenience init(font: UIFont?) {
+    convenience init(text: String? = nil, font: UIFont?) {
         self.init()
+        self.text = text
         self.font = font
         numberOfLines = 0
     }

@@ -8,5 +8,5 @@
 
 struct Quiz: Decodable {
     let question: String
-    let answer: [String]
+    var answer: [String]
 }

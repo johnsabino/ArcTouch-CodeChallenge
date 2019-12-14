@@ -9,8 +9,9 @@
 import UIKit
 
 extension UIButton {
-    convenience init(cornerRadius: CGFloat) {
+    convenience init(title: String, cornerRadius: CGFloat) {
         self.init()
+        setTitle(title, for: .normal)
         layer.cornerRadius = cornerRadius
         backgroundColor = .customOrange
         titleLabel?.font = .button
