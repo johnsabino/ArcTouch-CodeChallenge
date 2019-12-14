@@ -8,14 +8,14 @@
 
 import UIKit
 
-enum Paddings: Equatable {
+public enum Paddings: Equatable {
     case top(CGFloat)
     case right(CGFloat)
     case bottom(CGFloat)
     case left(CGFloat)
 }
 
-extension UIView {
+public extension UIView {
     var anchor: SmartConstraint {
         return SmartConstraint(view: self)
     }
@@ -25,7 +25,7 @@ extension UIView {
 public class SmartConstraint {
     
     unowned var view: AnyObject
-    
+
     public var constraints: [NSLayoutConstraint] = []
     public var lastConstraint: NSLayoutConstraint? {
         didSet { if let constraint = lastConstraint { constraints.append(constraint) } }
@@ -35,14 +35,14 @@ public class SmartConstraint {
         view.translatesAutoresizingMaskIntoConstraints = false
         self.view = view
     }
-    
+
     init(layoutGuide: UILayoutGuide) {
         self.view = layoutGuide
     }
 }
 
 extension SmartConstraint {
-    
+
     @discardableResult
     public func top(_ anchor: NSLayoutYAxisAnchor,
                     padding: CGFloat = 0,
@@ -51,7 +51,7 @@ extension SmartConstraint {
         layoutAnchor(view.topAnchor, toAnchor: anchor, relation: relation, padding: padding, priority: priority)
         return self
     }
-    
+
     @discardableResult
     public func bottom(_ anchor: NSLayoutYAxisAnchor,
                        padding: CGFloat = 0,
@@ -60,7 +60,7 @@ extension SmartConstraint {
         layoutAnchor(view.bottomAnchor, toAnchor: anchor, relation: relation, padding: -padding, priority: priority)
         return self
     }
-    
+
     @discardableResult
     public func left(_ anchor: NSLayoutXAxisAnchor,
                      padding: CGFloat = 0,
@@ -85,7 +85,8 @@ extension SmartConstraint {
                       multiplier: CGFloat = 1,
                       relation: NSLayoutConstraint.Relation = .equal,
                       priority: UILayoutPriority = .required) -> SmartConstraint {
-        layoutDimension(view.widthAnchor, toDimension: anchor, relation: relation, constant: constant, multiplier: multiplier, priority: priority)
+        layoutDimension(view.widthAnchor, toDimension: anchor, relation: relation,
+                        constant: constant, multiplier: multiplier, priority: priority)
         return self
     }
     
@@ -103,7 +104,8 @@ extension SmartConstraint {
                        multiplier: CGFloat = 1,
                        relation: NSLayoutConstraint.Relation = .equal,
                        priority: UILayoutPriority = .required) -> SmartConstraint {
-        layoutDimension(view.heightAnchor, toDimension: anchor, relation: relation, constant: constant, multiplier: multiplier, priority: priority)
+        layoutDimension(view.heightAnchor, toDimension: anchor, relation: relation,
+                        constant: constant, multiplier: multiplier, priority: priority)
         return self
     }
     
