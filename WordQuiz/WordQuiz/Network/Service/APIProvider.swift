@@ -22,7 +22,6 @@ class APIProvider<T: Decodable> {
         if let url = urlComponents.url {
             let request = URLRequest(url: url)
 
-            print("Request: \(request)")
             let task = session.dataTask(with: request) { result in
                 self.handleResult(result: result, completion: completion)
             }
