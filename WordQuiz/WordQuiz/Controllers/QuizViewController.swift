@@ -9,6 +9,7 @@
 import UIKit
 
 class QuizViewController: UIViewController {
+    lazy var loadingView = LoadingView()
     let quizView = QuizView()
     var quizViewModel = QuizViewModel()
     
@@ -19,6 +20,7 @@ class QuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDataSource()
+        view.addSubview(loadingView)
         quizViewModel.getQuiz(id: 1)
         quizViewModel.quizStatusDelegate = self
         quizView.textFieldEditingDelegate = self
@@ -47,7 +49,22 @@ extension QuizViewController: QuizFetchDelegate {
     func didSetQuiz() {
         DispatchQueue.main.async {
             self.quizView.setTitle(text: self.dataSource.quiz.question)
+            self.loadingView.removeFromSuperview()
         }
+    }
+    
+    func didFailFetch(with error: NetworkError) {
+        DispatchQueue.main.async {
+            self.loadingView.removeFromSuperview()
+            self.showAlert(title: "Network Error",
+                           message: "Cannot fetch quiz",
+                           alertActionTitle: "Try Again") { [weak self] _ in
+                        guard let self = self else { return }
+                        self.view.addSubview(self.loadingView)
+                        self.quizViewModel.getQuiz(id: 1)
+            }
+        }
+        
     }
     
     func didUpdateCorrectAnswers(isHitted: Bool) {
@@ -58,10 +75,6 @@ extension QuizViewController: QuizFetchDelegate {
                 self.quizView.reloadTableView()
             }
         }
-    }
-    
-    func didFailFetch(with error: NetworkError) {
-        print("Error: \(error)")
     }
 }
 
@@ -86,21 +99,26 @@ extension QuizViewController: QuizStatusDelegate {
         case .win:
             showAlert(title: "Congratulations",
                       message: "Good job! You found all the answers on time. Keep up with the great work.",
-                      alertActionTitle: "Play Again")
+                      alertActionTitle: "Play Again") { [weak self] _ in
+                        
+                        self?.startQuiz()
+            }
         case .lose(let correctAnswersCount, let allAnswersCount):
 
             showAlert(title: "Time finished",
                       message: "Sorry, time is up! You got \(correctAnswersCount) out of \(allAnswersCount) answers",
-                      alertActionTitle: "Try Again")
+                      alertActionTitle: "Try Again") { [weak self] _ in
+                        
+                        self?.startQuiz()
+            }
         }
     }
     
-    func showAlert(title: String, message: String, alertActionTitle: String) {
+    func showAlert(title: String, message: String,
+                   alertActionTitle: String, alertAction: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let replayAction = UIAlertAction(title: alertActionTitle, style: .default, handler: { [weak self] _ in
-            self?.startQuiz()
-        })
-        
+        let replayAction = UIAlertAction(title: alertActionTitle, style: .default, handler: alertAction)
+
         alert.addAction(replayAction)
         present(alert, animated: true, completion: nil)
     }

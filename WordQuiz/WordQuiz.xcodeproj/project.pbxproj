@@ -39,6 +39,7 @@
 		6CF2D97F23A505E9000576A8 /* UITableView+DequeueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2D97E23A505E9000576A8 /* UITableView+DequeueCell.swift */; };
 		6CF2D98223A5146A000576A8 /* StringProtocol+FirstUppercased.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2D98123A5146A000576A8 /* StringProtocol+FirstUppercased.swift */; };
 		6CF2D98423A52BDA000576A8 /* QuizStatusDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2D98323A52BDA000576A8 /* QuizStatusDelegate.swift */; };
+		6CF2D98623A56846000576A8 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF2D98523A56846000576A8 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		6CF2D97E23A505E9000576A8 /* UITableView+DequeueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+DequeueCell.swift"; sourceTree = "<group>"; };
 		6CF2D98123A5146A000576A8 /* StringProtocol+FirstUppercased.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StringProtocol+FirstUppercased.swift"; sourceTree = "<group>"; };
 		6CF2D98323A52BDA000576A8 /* QuizStatusDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizStatusDelegate.swift; sourceTree = "<group>"; };
+		6CF2D98523A56846000576A8 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 			children = (
 				6CF2D96623A477B7000576A8 /* Extensions */,
 				6CF2D95F23A472FE000576A8 /* QuizView.swift */,
+				6CF2D98523A56846000576A8 /* LoadingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				6CF2D95023A46A8F000576A8 /* Data+Decode.swift in Sources */,
 				6CF2D94023A468BF000576A8 /* SmartConstraint.swift in Sources */,
 				6CF2D94623A469BA000576A8 /* RouterService.swift in Sources */,
+				6CF2D98623A56846000576A8 /* LoadingView.swift in Sources */,
 				6CF2D95423A46C3E000576A8 /* APIProvider.swift in Sources */,
 				6CF2D98223A5146A000576A8 /* StringProtocol+FirstUppercased.swift in Sources */,
 				6CF2D94E23A46A81000576A8 /* Encodable+Data.swift in Sources */,
