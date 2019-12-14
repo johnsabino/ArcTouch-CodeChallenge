@@ -19,6 +19,8 @@ class QuizView: UIView {
     
     override func didMoveToSuperview() {
         setupView()
+        tableView.register(UITableViewCell.self)
+        
         actionButton.setTitle("Reset", for: .normal)
         titleLabel.text = "What are all the java keywords?"
         successRateLabel.text = "07/50"
