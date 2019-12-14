@@ -114,7 +114,7 @@ extension QuizViewController: QuizStatusDelegate {
         case .lose(let correctAnswersCount, let allAnswersCount):
 
             showAlert(title: "Time finished",
-                      message: "Sorry, time is up! You got \(correctAnswersCount) out of \(allAnswersCount) answers",
+                      message: "Sorry, time is up! You got \(correctAnswersCount) out of \(allAnswersCount) answers.",
                       alertActionTitle: "Try Again") { [weak self] _ in
                         
                 self?.startQuiz()

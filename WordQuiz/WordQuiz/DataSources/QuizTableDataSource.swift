@@ -27,6 +27,7 @@ class QuizTableDataSource: NSObject, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.textLabel?.font = .body
         cell.textLabel?.text = correctAnswers[indexPath.row]
         return cell
     }
