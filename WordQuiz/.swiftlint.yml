@@ -5,3 +5,7 @@ disabled_rules:
  
 opt_in_rules:
  - force_unwrapping
+ 
+identifier_name:
+ min_length: 2
+ max_length: 50
