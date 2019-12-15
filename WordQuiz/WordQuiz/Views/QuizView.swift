@@ -28,6 +28,7 @@ class QuizView: UIView {
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
         setupKeyboardObservers()
+        textField.delegate = self
     }
     
     func setupKeyboardObservers() {
@@ -85,12 +86,13 @@ class QuizView: UIView {
             else { return }
 
         let keyboardHeight = keyboardSize.height
-        let newConstant = -(keyboardHeight - safeAreaInsets.bottom)
+        let padding: CGFloat = 16
+        let newConstant = -(keyboardHeight - safeAreaInsets.bottom + padding)
         animateBottomConstraint(to: newConstant)
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        animateBottomConstraint(to: 0)
+        animateBottomConstraint(to: -16)
     }
     
     private func animateBottomConstraint(to constant: CGFloat) {
@@ -125,31 +127,38 @@ extension QuizView: ViewCode {
             .left(safeAreaLayoutGuide.leftAnchor, padding: 16)
             .right(safeAreaLayoutGuide.rightAnchor, padding: 16)
         
-        bottomConstraint = componentView.anchor
+         componentView.anchor
             .top(tableView.bottomAnchor)
-            .left(safeAreaLayoutGuide.leftAnchor)
-            .right(safeAreaLayoutGuide.rightAnchor)
-            .bottom(safeAreaLayoutGuide.bottomAnchor).getLastConstraint
+            .left(leftAnchor)
+            .right(rightAnchor)
+            .bottom(bottomAnchor)
         
         correctAnswersCountLabel.anchor
             .top(componentView.topAnchor, padding: 16)
             .bottom(actionButton.topAnchor, padding: 16)
-            .left(componentView.leftAnchor, padding: 16)
+            .left(safeAreaLayoutGuide.leftAnchor, padding: 16)
         
         timerLabel.anchor
             .top(componentView.topAnchor, padding: 16)
             .bottom(actionButton.topAnchor, padding: 16)
-            .right(componentView.rightAnchor, padding: 16)
+            .right(safeAreaLayoutGuide.rightAnchor, padding: 16)
         
-        actionButton.anchor
-            .left(componentView.leftAnchor, padding: 16)
-            .right(componentView.rightAnchor, padding: 16)
-            .bottom(componentView.bottomAnchor, padding: 16)
+        bottomConstraint = actionButton.anchor
+            .left(safeAreaLayoutGuide.leftAnchor, padding: 16)
+            .right(safeAreaLayoutGuide.rightAnchor, padding: 16)
             .height(constant: 48)
+            .bottom(safeAreaLayoutGuide.bottomAnchor, padding: 16).getLastConstraint
     }
     
     func setupAditionalConfiguration() {
         backgroundColor = .white
         componentView.backgroundColor = .customGray
+    }
+}
+
+extension QuizView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
     }
 }

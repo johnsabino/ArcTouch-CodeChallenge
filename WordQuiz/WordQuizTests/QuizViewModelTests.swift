@@ -60,9 +60,7 @@ class QuizViewModelTests: XCTestCase {
         quizViewModel.verify(text: "do") { (_) in }
         quizViewModel.verify(text: "catch") { (_) in }
         
-        let correctAnswersCount = quizViewModel.dataSource.correctAnswers.count
-        let allAnswerCount = quizViewModel.dataSource.quiz.answer.count
-        XCTAssertEqual(quizViewModel.correctAnswersCount, quizViewModel.allAnswerCount)
+        XCTAssertEqual(quizViewModel.correctAnswersCount, quizViewModel.allAnswersCount)
     }
     
     func testLoseQuiz() {
@@ -77,8 +75,7 @@ class QuizViewModelTests: XCTestCase {
         }
         quizViewModel.verify(text: "do") { (_) in }
         
-        XCTAssertLessThan(quizViewModel.correctAnswersCount, quizViewModel.allAnswerCount)
-        
+        XCTAssertLessThan(quizViewModel.correctAnswersCount, quizViewModel.allAnswersCount)
         wait(for: [expectation], timeout: 5)
     }
 
