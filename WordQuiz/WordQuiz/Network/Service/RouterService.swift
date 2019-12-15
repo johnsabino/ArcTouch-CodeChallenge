@@ -6,8 +6,6 @@
 //  Copyright © 2019 João Paulo de Oliveira Sabino. All rights reserved.
 //
 
-public typealias Headers = [String: String]
-
 protocol RouterService {
     var baseURL: String { get }
     var path: String { get }

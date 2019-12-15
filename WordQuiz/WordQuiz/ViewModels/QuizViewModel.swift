@@ -36,12 +36,22 @@ class QuizViewModel {
             }
         }
     }
+        
+    //MARK: - Quiz Logic
     
+    /**
+     Chech if the text is a valid answer.
+     
+     - parameter text: Input text
+     - parameter hittedAnswerCompletion: if is a valid text, call the completion with the answers count in correct format.
+     - parameter countAnswers: The count of correct answers in format: NN/NN
+    */
     func verify(text: String, hittedAnswerCompletion: (_ countAnswers: String) -> Void) {
         let answers = dataSource.quiz.answer
         let lowerCasedText = text.lowercased().trimmingCharacters(in: .whitespaces)
         let hitAnswer = answers.contains(lowerCasedText) &&
             !dataSource.correctAnswers.contains(lowerCasedText.firstUppercased)
+        
         if hitAnswer {
             dataSource.correctAnswers.append(lowerCasedText.firstUppercased)
             
