@@ -11,7 +11,6 @@ class QuizViewModel {
     let dataSource = QuizTableDataSource()
     var timer: Timer?
     let timeLimit: TimeInterval //in seconds
-    var hasCompleted = false
     var quizStarted = false
     var correctAnswersCount: Int {
         return dataSource.correctAnswers.count
